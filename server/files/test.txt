@@ -1,4 +1,0 @@
-Hello world!
-I'm a test file
-	One tab
-		Here are two tabs
