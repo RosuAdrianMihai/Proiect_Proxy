@@ -21,9 +21,13 @@ try:
         "content": write_to_file() if action == "write" else ""
     }
 
-    json_data = json.dumps()
+    json_data = json.dumps(data)
 
-    client_socket.send(json_data)
+    client_socket.sendall(json_data.encode())
+
+    response = client_socket.recv(1024).decode()
+
+    print(f"Received:\n{response}")
 except:
     print("Client error")
 finally:
