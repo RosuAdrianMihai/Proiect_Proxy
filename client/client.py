@@ -2,11 +2,10 @@ import socket
 import json
 from actions.write import write_to_file
 
-server_address = ('127.0.0.1', 12345)
+proxy_address = ('127.0.0.1', 9090)
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-client_socket.connect(server_address)
+client_socket.connect(proxy_address)
 
 action = ""
 while action != "read" and action != "write":
@@ -18,16 +17,16 @@ try:
     data = {
         "action": action,
         "file_name": file_name,
-        "content": write_to_file() if action == "write" else ""
+        "content": write_to_file() if action == "write" else "",
     }
 
     json_data = json.dumps(data)
-
     client_socket.sendall(json_data.encode())
 
-    response = client_socket.recv(1024).decode()
+    json_result = client_socket.recv(1024).decode()
+    result = json.loads(json_result)["result"]
 
-    print(f"Received:\n{response}")
+    print(f"Received:\n{result}")
 except:
     print("Client error")
 finally:
