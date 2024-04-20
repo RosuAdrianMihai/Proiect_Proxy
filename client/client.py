@@ -2,6 +2,7 @@ import socket
 import json
 from actions.write import write_to_file
 
+server_address = ('127.0.0.1', 8080)
 proxy_address = ('127.0.0.1', 9090)
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,6 +19,7 @@ try:
         "action": action,
         "file_name": file_name,
         "content": write_to_file() if action == "write" else "",
+        "server_address": server_address
     }
 
     json_data = json.dumps(data)
